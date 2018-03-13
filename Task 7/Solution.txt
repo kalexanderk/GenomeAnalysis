@@ -1,0 +1,74 @@
+# PATTERN TO NUMBER (INSERT pattern)
+def SymbolToNumber(symbol):
+    if symbol == "A":
+        return 0
+    if symbol == "C":
+        return 1
+    if symbol == "G":
+        return 2
+    if symbol == "T":
+        return 3
+
+def PatternToNumber(pattern):
+    if pattern=="":
+        return 0
+    symbol=pattern[len(pattern)-1]
+    prefix=pattern[0:len(pattern)-1]
+    return 4*PatternToNumber(prefix) + SymbolToNumber(symbol)
+
+print PatternToNumber("TAATATGCTGCGTCCTTA")
+
+
+
+# NUMBER TO PATTERN (INSERT n AND number)
+ARR = []
+n=10
+def NumberToPattern(number):
+    if number<4:
+        ARR.append(number)
+        return 0
+    remainder=number - 4*(number/4)
+    number=number/4
+    ARR.append(remainder)
+    NumberToPattern(number)
+
+NumberToPattern(6680)
+
+print ARR
+
+if len(ARR)<n:
+    for i in range(n-len(ARR)):
+        ARR.append(0)
+
+ARR=ARR[::-1]
+
+Res = []
+for i in ARR:
+    if i == 0:
+        Res.append("A")
+    if i == 1:
+        Res.append("C")
+    if i == 2:
+        Res.append("G")
+    if i == 3:
+        Res.append("T")
+
+# print("".join(str(x) for x in Res))
+
+# ----------------------------------------------------------
+
+
+def ComputingFrequencies(text, k):
+    frequencyarray = []
+    for i in range(pow(4, k)):
+        frequencyarray.append(0)
+    for i in range(len(text)-k+1):
+        pattern = text[i:i+k]
+        j=PatternToNumber(pattern)
+        frequencyarray[j]+=1
+    return frequencyarray
+
+k=5
+text = "GTCGCTGTGAGGGCCAGGCGGACGGCCCTGCGGGCCTACCGACCACCGATTCGACTTTGATCAGGCACACGCGCGGGAGTGGAACGAAATTAGGCTCTCGGAGCCTACACCGCCTGGGGCTATAGAGCAAATACGACACACCGTTTGGCAGCACAATCTAATTGATGAAAATCTCGAGACGAAACTGAGGCGGGTAGTGACCGTCTATGACTCAGCGACCAGGCGAGCATCTCTCAGTTTTACTACCGCCGCCCAAAGTTCTCACATGCGAAGATGAATGTTCTCCCCACGTGGGTAAGAGCTAAACGTTTCCAAAACCCCTCCAGTTGACGTCTAAACGGGGTGGGCGTGTGTTCGCCTAGCAATCTTATTAACCACACGGGTCAACTCCATGTGTACGTTCTGGCGTATCAGCACGTTCCCGCGTGCGCATTATCTCGAGCGACAGTCTATTTAGCTACCCTGGGCGGAACGGGGGAATGGGGCTGTCCAATTGATCTGTCTCCCACCTAGGTAAGCTCCCGGTTAAAAAGATTGATGATACGACTCACCTTGAGAGAGTTGTGCTTAATCGTTCACATGGCACAAGGGGATTAGACCAGTGTTTTGCTACTCGCTCTTCGTGTTCG"
+data = ComputingFrequencies(text, k)
+print (" ".join(str(x) for x in data))
